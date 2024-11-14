@@ -1,0 +1,80 @@
+<app-sidebar />
+
+<app-header titulo="Perfil" icon="chart-pie-solid.svg"/>
+
+<div class="container-fluid p-0 h-100"> 
+    <div class="row mb-5 d-flex align-items-center justify-content-center" style="height: 80vh;">
+        <div class="col-6 offset-3">
+            <div class="px-5 pt-4 shadow rounded-5 bg-light">
+                <h2 class="mb-4 ">Atualizar dados 🤨</h2>    
+                <form>
+                    <!-- 2 column grid layout with text inputs for the first and last names -->
+                    <div class="row mb-4">
+                        <div class="col">
+                        <mdb-form-control>
+                            <input mdbInput type="text" id="form3Example1" class="form-control" />
+                            <label mdbLabel class="form-label" for="form3Example1">Nome</label>
+                        </mdb-form-control>
+                        </div>
+                        <div class="col">
+                        <mdb-form-control class="form-outline">
+                            <input mdbInput type="text" id="form3Example2" class="form-control" />
+                            <label mdbLabel class="form-label" for="form3Example2">Email</label>
+                        </mdb-form-control>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-4">
+                        <div class="col">
+                        <mdb-form-control>
+                            <input 
+                                mdbInput
+                                class="form-control"
+                                id="formControlDisabled"
+                                type="text"
+                                placeholder="Disabled input"
+                                aria-label="disabled input example"
+                                [disabled]="true"
+                            
+                            
+                            mdbInput type="text" id="form3Example1" class="form-control" disabled/>
+                            <label mdbLabel class="form-label" for="form3Example1">Cargo</label>
+                        </mdb-form-control>
+                        </div>
+                        <div class="col">
+                        <mdb-form-control class="form-outline">
+                            <input mdbInput type="text" id="form3Example2" class="form-control" />
+                            <label mdbLabel class="form-label" for="form3Example2">Telefone</label>
+                        </mdb-form-control>
+                        </div>
+                    </div>
+
+                    <mdb-form-control class="mb-4">
+                        <input mdbInput type="email" id="form3Example3" class="form-control" />
+                        <label mdbLabel class="form-label" for="form3Example3">Senha</label>
+                    </mdb-form-control>
+                
+                    <mdb-form-control class="mb-4">
+                        <input mdbInput type="password" id="form3Example4" class="form-control" />
+                        <label mdbLabel class="form-label" for="form3Example4">Confirmar Senha</label>
+                    </mdb-form-control>
+
+                    <div class="d-flex justify-content-end gap-2">                
+                        <button mdbRipple type="button" class="btn btn-secondary text-danger mb-4" >Cancelar</button> 
+                     
+                        <button mdbRipple type="button" class="btn btn-success mb-4">Salvar</button> 
+                    </div>  
+                
+                </form>
+            </div>
+        </div>
+        <div class="col-3 h-75">
+            <div class="d-flex align-items-center justify-content-center">   
+                <span class="rounded-circle p-2 h-100 bg-primary p-4">
+                    <img src="assets/icons/user-solid.svg" alt=""  width="52px" height="54px">
+                </span>    
+            </div>
+        </div>
+    </div>
+</div>
