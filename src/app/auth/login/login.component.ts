@@ -57,6 +57,8 @@ export default class LoginComponent {
         this.cookie.set('name', data.name, 30)
         this.cookie.set('role', data.role, 30)
         this.cookie.set('img', data.img, 30)
+        this.cookie.set('id', data.user_id, 30)
+
         this.notyf.success("Logado com sucesso!");
         this.router.navigate(['/'])
 
