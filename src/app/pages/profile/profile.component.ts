@@ -7,15 +7,16 @@ import { MdbFormsModule }   from 'mdb-angular-ui-kit/forms';
 // Components
 import { HeaderComponent }  from  '@components/header/header.component';
 import { SidebarComponent } from  '@components/sidebar/sidebar.component';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { UserService } from '@services/user.service';
 import { CookieService } from 'ngx-cookie-service';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, MdbFormsModule, MdbRippleModule, ReactiveFormsModule],
+  imports: [HeaderComponent, SidebarComponent, MdbFormsModule, MdbRippleModule, ReactiveFormsModule, FormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -23,7 +24,9 @@ export default class ProfileComponent {
 
   http$: Observable<any> = new Observable()
   userId: string = this.cookieService.get('id');
-  image: string = ""
+  image: string;
+  changePassword: boolean = false;
+  notyf: Notyf;
 
   form: FormGroup = new FormGroup({
     id: new FormControl(""),
@@ -43,6 +46,13 @@ export default class ProfileComponent {
 
   ngOnInit(){
     this.getUserById();
+
+    this.notyf  = new Notyf({
+      position: {
+        x: 'right',
+        y: 'top',
+      }
+    });
   }
 
   getUserById(){
@@ -58,15 +68,51 @@ export default class ProfileComponent {
             rm: data.body.rm
           })
 
-          this.image = data.body.image
+          if(data.body.image){
+            this.image = data.body.image
+          }
         }
         console.log(data)
       }
     })
   }
 
-  addImage(){
-    
+  changeInputFile(inp: any)
+  {
+    console.log(inp.files)
+    if(inp.files && inp.files[0])
+    {
+      const result = new ReplaySubject<string>(1);
+      const file = inp.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (ev: ProgressEvent<FileReader>) => {
+        if (ev.target && ev.target.result)
+        {
+          this.image = ev.target.result.toString();
+        }
+      }
+
+    }
+  }
+
+  updateInfo(){
+    const params = {
+      user: this.form.getRawValue(),
+      image: this.image
+    }
+
+    this.http$ = this.userService.updateItem(this.userId, params)
+    this.http$.subscribe({
+      next: (data) => {
+        console.log(data)
+        if(data.status){
+          this.notyf.success(data.message)
+        }else{
+          this.notyf.error(data.message)
+        }
+      }
+    })
   }
 
 }
