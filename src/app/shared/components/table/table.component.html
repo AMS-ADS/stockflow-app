@@ -40,7 +40,7 @@
                                     </td>                            
                                 }@else if(name == 'document'){
                                     <td>{{ entity[name] | mask: 'CPF_CNPJ' }}</td>                            
-                                }@else if(name == 'disabled' || name == 'type' || name== 'status'){
+                                }@else if(name == 'disabled' || name == 'type' || name == 'status'){
                                     <td [innerHTML]="entity[name]"></td>
                                 }@else if(name == 'created_at'){
                                     <td>

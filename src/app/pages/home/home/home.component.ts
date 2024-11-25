@@ -5,6 +5,8 @@ import { faParachuteBox } from '@fortawesome/free-solid-svg-icons';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { SidebarComponent } from 'src/app/shared/components/sidebar/sidebar.component';
 import { ModalComponent } from '../../movements/modal/modal.component';
+import { ModalRemoveComponent } from '../../movements/modal-remove/modal-remove.component';
+import { ModalAddComponent } from '../../movements/modal-add/modal-add.component';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +27,10 @@ export default class HomeComponent {
   }
 
   openAddModal(){
-    this.modalRef = this.modalService.open(ModalComponent)
+    this.modalRef = this.modalService.open(ModalAddComponent)
+  }
+
+  openRemoveModal(){
+    this.modalRef = this.modalService.open(ModalRemoveComponent)
   }
 }
