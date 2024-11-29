@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from '@components/header/header.component';
-import { SidebarComponent } from '@components/sidebar/sidebar.component';
+import { Observable } from 'rxjs';
+
+// MDBootstrap
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 
 // Chart
 import Chart from 'chart.js/auto';
 
-// MDBootstrap
-import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+// Components
+import { HeaderComponent } from '@components/header/header.component';
+import { SidebarComponent } from '@components/sidebar/sidebar.component';
+
+// Services
+import { DashboardService } from '@services/dashboard.service';
+
 
 @Component({
   selector: 'app-reports',
@@ -17,21 +24,33 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 })
 export class ReportsComponent implements OnInit { 
 
+  
+  http$: Observable<any> = new Observable();
   public chart: any
 
-  constructor(){ }
+  constructor(
+    private dashboardService: DashboardService
+  ){ }
 
-  public ngOnInit(){ 
+  public async ngOnInit(){ 
 
-  const labels = ["January", "February", "March", "April", "May", "Juny", "July"];
+
+    const data: any = await this.getBarChartData();
+
+    // setTimeout(()=>{
+      console.log(data);
+
+    // }, 2000)
+
+  const labels = data.labels;
   const barCanvasEle: any = document.getElementById('MyChart')
   const barChart = new Chart(barCanvasEle.getContext('2d'), {
     type: 'bar',
       data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: labels,
         datasets: [{
           label: 'Sales',
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: data.amount,
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
@@ -66,7 +85,30 @@ export class ReportsComponent implements OnInit {
   }
 
   private getBarChartData(){
-    
+    this.http$ = this.dashboardService.getDataBar()
+
+
+    return new Promise((resolve, reject)=>{
+      this.http$.subscribe({
+        next: (data: any) => {
+          if(data.status){  
+            console.log(data.body);
+            // return data.body;
+            resolve(data.body);
+          }
+  
+        },
+        error: (error) => {
+  
+          console.log(error)
+          reject(false);
+        }
+      })
+    })
+
+  
+
+
   }
 
   public search(){
