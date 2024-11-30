@@ -49,7 +49,7 @@ export class ReportsComponent implements OnInit {
       data: {
         labels: labels,
         datasets: [{
-          label: 'Sales',
+          label: 'Movimentações ',
           data: data.amount,
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
