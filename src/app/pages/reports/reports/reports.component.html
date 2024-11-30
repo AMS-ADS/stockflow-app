@@ -70,8 +70,21 @@
         </div>
     </div>
 
+    
+    <div class="row justify-content-center mb-5" style="height: min-content;">
+        <div class="col-11 p-3 pb-0 bg-white shadow rounded">
+            <div class="d-flex flex-column w-50 gap-4 pb-5 pt-2">
+                <div class="chart-container" style="height: 40vh;">
+                    <canvas  id="barChart">{{ barChart }}</canvas>
+                </div> 
+                <div class="chart-container" style="height: 40vh;">
+                    <canvas  id="pieChart" class="mx-auto">{{ pieChart }}</canvas>
+                </div> 
+            </div>
+        </div>
+    </div>
 
-    <div class="container mt-5">
+    <!-- <div class="container mt-5">
         <div class="row">
             <div class="col p-4 shadow rounded">
                 <div class="chart-container">
@@ -80,7 +93,7 @@
             </div>
             <div class="col"></div>
         </div>
-    </div>
+    </div> -->
 
  
 
@@ -92,6 +105,5 @@
     </div> -->
 
 </div>
-
 
 

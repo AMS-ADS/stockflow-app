@@ -18,6 +18,6 @@ export class DashboardService extends ServiceService{
     }
 
     getDataBar(): Observable<any>{
-      return this.http.get(`${this.apiUrl}/${this.endPoint}/bar`, this.requestOptions);
+      return this.http.get(`${this.apiUrl}/${this.endPoint}/`, this.requestOptions);
     }
 }
