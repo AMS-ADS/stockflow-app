@@ -14,7 +14,7 @@
         <form class="d-flex flex-column gap-3 position-relative" style="height: min-content;" [formGroup]="movement">
 
             <mdb-form-control>
-              <input #product mdbInput type="text" id="name" class="form-control" list="products" formControlName="product_id" (change)="select_product(product)"/>
+              <input #product mdbInput type="text" id="name" class="form-control" list="products" formControlName="product_id" (ngModelChange)="select_product(product)"/>
               <label mdbLabel class="form-label" for="name">Nome do Produto</label>
               <datalist id="products">
                 @for(product of products; track $index){

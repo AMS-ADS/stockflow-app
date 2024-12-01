@@ -26,6 +26,7 @@ export class ModalAddComponent {
 
   http$: Observable<any> = new Observable();
   notyf: Notyf;
+  movementId: string = ''
 
   today: any = new Date()
 
@@ -67,9 +68,26 @@ export class ModalAddComponent {
     console.log(this.datePipe.transform(this.today, 'yyyy-MM-ddTHH:mm'))
   }
 
-  select_product(input: HTMLInputElement){
-    console.log('teste')
+  getMovementById(){
+    this.http$ = this.movementService.getItem(this.movementId)
+    this.http$.subscribe({
+      next: (data) => {
+        console.log(data)
+        if(data.status){
+          data.body.created_at = data.body.created_at.split('.')[0]
+          this.movement.patchValue(data.body)
+          console.log(this.movement)
+        }
+      },
+      error: (error) => {
+        console.log(error)
+      }
+    })
+  }
+
+  select_product(input?: HTMLInputElement){
     let product = this.products.find((p) => input.value == p.id)
+  
     if(product){
       input.value = product.name
     }else{
@@ -98,6 +116,9 @@ export class ModalAddComponent {
       next: (data) => {
         if(data.status){
           this.products = data.body
+          if(this.movementId){
+            this.getMovementById();
+          }
         }
       }
     })
@@ -115,7 +136,11 @@ export class ModalAddComponent {
   addMovement(){
     if(this.movement.valid){
       console.log(this.movement.getRawValue())
-      this.http$ = this.movementService.postItem(this.movement.getRawValue());
+      if(!this.movementId){
+        this.http$ = this.movementService.postItem(this.movement.getRawValue());
+      }else{
+        this.http$ = this.movementService.updateItem(this.movementId, this.movement.getRawValue());
+      }
       this.http$.subscribe({
         next: (data) => {
           if(data.status){

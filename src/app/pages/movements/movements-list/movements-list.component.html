@@ -1,6 +1,10 @@
-<app-sidebar />
-<app-header [titulo]="'Movimentações'" icon="arrow-right-arrow-left-solid.svg"/>
+<app-confirm 
+    (confirm)="deleteItems($event)"
+/>
 
+<app-sidebar />
+
+<app-header [titulo]="'Movimentações'" icon="arrow-right-arrow-left-solid.svg"/>
 
 <div class="container-fluid">
     <div class="row justify-content-center mt-5">
@@ -83,6 +87,10 @@
         [headers]="headers"
         [data]="data"
         [indexes]="indexes"
+
+        [resetItemsToDelete]="resetList"
+        (id)="editProduct($event)"
+        (itemsToDelete)="getItemsToDelete($event)"
     />
     
 </div>

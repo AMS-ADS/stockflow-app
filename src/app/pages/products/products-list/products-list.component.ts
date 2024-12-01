@@ -21,7 +21,6 @@ import { ModalUnityComponent }    from '../modal-unity/modal-unity.component';
 // Services
 import { ProductService } from '@services/product.service';
 import { ConfirmService } from '@services/confirm.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { CategoryService } from '@services/category.service';
 
 

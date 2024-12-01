@@ -2,6 +2,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { Notyf } from 'notyf';
 
 // MDBootstrap
 import { MdbFormsModule }   from 'mdb-angular-ui-kit/forms';
@@ -17,9 +18,8 @@ import { ModalComponent }   from '../modal/modal.component';
 // Services
 import { EmployeeService }  from '@services/employee.service';
 import { ConfirmComponent } from '@components/confirm/confirm.component';
-import { Notyf } from 'notyf';
-import { ConfirmService } from '@services/confirm.service';
 
+import { ConfirmService } from '@services/confirm.service';
 
 @Component({
   selector: 'app-employees-list',
