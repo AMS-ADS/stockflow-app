@@ -17,7 +17,7 @@ export class DashboardService extends ServiceService{
       this.endPoint = 'dashboard';
     }
 
-    getDataBar(): Observable<any>{
-      return this.http.get(`${this.apiUrl}/${this.endPoint}/`, this.requestOptions);
+    getDataBar(values: any | null): Observable<any>{
+      return this.http.post(`${this.apiUrl}/${this.endPoint}/`, values, this.requestOptions);
     }
 }

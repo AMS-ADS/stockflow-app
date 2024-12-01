@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // MDBootstrap
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
 
 // Chart
 import Chart from 'chart.js/auto';
@@ -13,12 +15,12 @@ import { SidebarComponent } from '@components/sidebar/sidebar.component';
 
 // Services
 import { DashboardService } from '@services/dashboard.service';
-
+import { EmployeeService }  from '@services/employee.service';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [SidebarComponent, HeaderComponent, MdbFormsModule],
+  imports: [SidebarComponent, HeaderComponent, MdbFormsModule, ReactiveFormsModule, MdbRippleModule],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss'
 })
@@ -26,9 +28,18 @@ export class ReportsComponent implements OnInit {
 
   
   http$: Observable<any> = new Observable();
-  public barChart: any
-  public pieChart: any
-  
+  public barChart:  any
+  public pieChart:  any
+  public users:     any[]
+
+  // Search's fields
+  public searchFields = new FormGroup({
+    type:     new FormControl(""),
+    user:     new FormControl(""),
+    from:     new FormControl(""),
+    until:    new FormControl(""),
+  });
+
   private backgroundValues = [
     'rgba(75, 192, 192, 0.2)',
     'rgba(54, 162, 235, 0.2)',
@@ -50,7 +61,8 @@ export class ReportsComponent implements OnInit {
   ];
 
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private employeeService: EmployeeService
   ){ }
 
   public async ngOnInit(){ 
@@ -61,6 +73,9 @@ export class ReportsComponent implements OnInit {
 
     this.generateBarchart(data.quantity);
     this.generatePiechart(data.sum);
+    
+
+    this.getUsers();
 
   }
 
@@ -137,7 +152,7 @@ export class ReportsComponent implements OnInit {
   }
 
   private getData(){
-    this.http$ = this.dashboardService.getDataBar()
+    this.http$ = this.dashboardService.getDataBar(null)
 
     return new Promise((resolve, reject)=>{
       this.http$.subscribe({
@@ -155,7 +170,47 @@ export class ReportsComponent implements OnInit {
     })
   }
 
+  public getUsers(){
+    this.http$ = this.employeeService.getItems()
+    this.http$.subscribe({
+      next: (data) => {
+        if(data.status){
+          this.users =  data.body
+        }        
+      },
+      error: (error) => {
+        console.log(error)
+      }
+    })
+  }
+
+
   public search(){
 
+    // console.log(this.searchFields.value)
+    const values = this.searchFields.value; 
+
+    console.log(values);
+
+    this.http$ = this.dashboardService.getDataBar(values)
+    this.http$.subscribe({
+      next: (data: any) => {  
+        console.log(data);
+
+        if(data.status){
+          this.barChart.destroy();
+          this.pieChart.destroy();
+
+          this.generateBarchart(data.quantity);
+          this.generatePiechart(data.sum);
+        }
+      },
+      error: (error) => {
+        console.log(error)
+        
+      }
+    })
+  
+    
   }
 }
