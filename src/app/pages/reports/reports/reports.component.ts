@@ -12,6 +12,7 @@ import Chart from 'chart.js/auto';
 // Components
 import { HeaderComponent } from '@components/header/header.component';
 import { SidebarComponent } from '@components/sidebar/sidebar.component';
+import { TableComponent } from '@components/table/table.component';
 
 // Services
 import { DashboardService } from '@services/dashboard.service';
@@ -20,7 +21,7 @@ import { EmployeeService }  from '@services/employee.service';
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [SidebarComponent, HeaderComponent, MdbFormsModule, ReactiveFormsModule, MdbRippleModule],
+  imports: [SidebarComponent, HeaderComponent, MdbFormsModule, ReactiveFormsModule, MdbRippleModule, TableComponent],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss'
 })
@@ -31,7 +32,9 @@ export class ReportsComponent implements OnInit {
   public barChart:  any
   public pieChart:  any
   public users:     any[]
-
+  public headers:   string[] = ['Nome', 'Quantidade', 'Total']
+  public indexes:   string[] = ['id', 'name', 'quantity', 'price']
+  public products:  any[] = []
   // Search's fields
   public searchFields = new FormGroup({
     type:     new FormControl(""),
@@ -73,8 +76,10 @@ export class ReportsComponent implements OnInit {
 
     this.generateBarchart(data.quantity);
     this.generatePiechart(data.sum);
-    
 
+    console.log(data.products);
+
+    this.products = data.products;
     this.getUsers();
 
   }
@@ -184,7 +189,6 @@ export class ReportsComponent implements OnInit {
     })
   }
 
-
   public search(){
 
     // console.log(this.searchFields.value)
@@ -203,6 +207,7 @@ export class ReportsComponent implements OnInit {
 
           this.generateBarchart(data.quantity);
           this.generatePiechart(data.sum);
+          this.products = data.products
         }
       },
       error: (error) => {
